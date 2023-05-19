@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfjpfkimjs1fq"]
+
+[ext_resource type="Script" path="res://src/objects_intelligent/plataform_intelligent/scripts/plataform_intelligent.gd" id="1_44d3l"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k8rno"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ngudi"]
+material = SubResource("StandardMaterial3D_k8rno")
+size = Vector3(2.5, 2.5, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oghcy"]
+size = Vector3(2.5, 2.5, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ynea"]
+size = Vector3(3, 3, 3)
+
+[node name="PlataformRigi" type="RigidBody3D" groups=["Plataforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.188152, 0)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_44d3l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ngudi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_oghcy")
+
+[node name="Detection" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detection"]
+shape = SubResource("BoxShape3D_1ynea")
+
+[connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]

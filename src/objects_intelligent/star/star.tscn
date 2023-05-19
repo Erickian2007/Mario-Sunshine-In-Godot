@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bg2h8nfsqar8e"]
+
+[ext_resource type="Script" path="res://src/objects_intelligent/star/Scripts/star.gd" id="1_3ljis"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2h1dl"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wr40x"]
+points = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, -1)
+
+[node name="Star" type="RigidBody3D"]
+collision_layer = 4
+axis_lock_linear_y = true
+script = ExtResource("1_3ljis")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_2h1dl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_wr40x")
+
+[node name="Detection" type="Area3D" parent="."]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Detection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0356705, 0)
+shape = SubResource("ConvexPolygonShape3D_wr40x")
+
+[connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]

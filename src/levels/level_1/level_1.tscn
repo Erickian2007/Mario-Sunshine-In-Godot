@@ -1,0 +1,2017 @@
+[gd_scene load_steps=82 format=3]
+
+[ext_resource type="Script" path="res://assets/free_look_camera.gd" id="1_i2fgv"]
+[ext_resource type="PackedScene" uid="uid://cgvpwcaaykwne" path="res://src/physics_bodys/character/character.tscn" id="1_m2ipy"]
+[ext_resource type="Script" path="res://src/objects_intelligent/plataform_intelligent/scripts/plataform_intelligent.gd" id="2_f7yf5"]
+[ext_resource type="PackedScene" uid="uid://dskihxmbqu4av" path="res://src/objects_intelligent/cube_intelligent/cube_intelligent.tscn" id="3_o1q4f"]
+[ext_resource type="PackedScene" uid="uid://bg2h8nfsqar8e" path="res://src/objects_intelligent/star/star.tscn" id="4_u12wa"]
+[ext_resource type="Script" path="res://src/changer/changer.gd" id="5_2q3u3"]
+[ext_resource type="PackedScene" path="res://src/objects_intelligent/cube_rotate/cube_rotate.tscn" id="6_1ntcc"]
+[ext_resource type="Script" path="res://src/return/scritps/return_plataform.gd" id="6_u274o"]
+[ext_resource type="PackedScene" uid="uid://br6uvnj1qsu0e" path="res://src/camera_management/camera_management.tscn" id="9_06usk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wtuyy"]
+
+[sub_resource type="Sky" id="Sky_ek5xg"]
+sky_material = SubResource("ProceduralSkyMaterial_wtuyy")
+
+[sub_resource type="Environment" id="Environment_yjm03"]
+background_mode = 2
+sky = SubResource("Sky_ek5xg")
+fog_enabled = true
+fog_height = 1024.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nwb2n"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_afp2s"]
+material = SubResource("StandardMaterial3D_nwb2n")
+size = Vector3(10, 6, 10)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_mgmdx"]
+data = PackedVector3Array(-5, 3, 5, 5, 3, 5, -5, -3, 5, 5, 3, 5, 5, -3, 5, -5, -3, 5, 5, 3, -5, -5, 3, -5, 5, -3, -5, -5, 3, -5, -5, -3, -5, 5, -3, -5, 5, 3, 5, 5, 3, -5, 5, -3, 5, 5, 3, -5, 5, -3, -5, 5, -3, 5, -5, 3, -5, -5, 3, 5, -5, -3, -5, -5, 3, 5, -5, -3, 5, -5, -3, -5, 5, 3, 5, -5, 3, 5, 5, 3, -5, -5, 3, 5, -5, 3, -5, 5, 3, -5, -5, -3, 5, 5, -3, 5, -5, -3, -5, 5, -3, 5, 5, -3, -5, -5, -3, -5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yo6pa"]
+size = Vector3(9.90909, 1, 9.89965)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r5v7m"]
+material = SubResource("StandardMaterial3D_nwb2n")
+size = Vector3(7.043, 2.959, 4.327)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ru1i8"]
+points = PackedVector3Array(3.43524, 1.42306, 2.1635, -3.4449, -1.4795, -2.13659, -3.43524, -1.47542, 2.1635, -3.48796, 1.4453, -2.1635, 3.4449, -1.4795, -2.13659, 3.48796, 1.4453, -2.1635, 3.43524, -1.47542, 2.1635, -3.43524, 1.42306, 2.1635)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xe7sd"]
+size = Vector3(6.84648, 1, 4.28311)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ftib1"]
+size = Vector3(2, 1, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_ce61l"]
+data = PackedVector3Array(-1, 0.5, 10, 1, 0.5, 10, -1, -0.5, 10, 1, 0.5, 10, 1, -0.5, 10, -1, -0.5, 10, 1, 0.5, -10, -1, 0.5, -10, 1, -0.5, -10, -1, 0.5, -10, -1, -0.5, -10, 1, -0.5, -10, 1, 0.5, 10, 1, 0.5, -10, 1, -0.5, 10, 1, 0.5, -10, 1, -0.5, -10, 1, -0.5, 10, -1, 0.5, -10, -1, 0.5, 10, -1, -0.5, -10, -1, 0.5, 10, -1, -0.5, 10, -1, -0.5, -10, 1, 0.5, 10, -1, 0.5, 10, 1, 0.5, -10, -1, 0.5, 10, -1, 0.5, -10, 1, 0.5, -10, -1, -0.5, 10, 1, -0.5, 10, -1, -0.5, -10, 1, -0.5, 10, 1, -0.5, -10, -1, -0.5, -10)
+
+[sub_resource type="GDScript" id="GDScript_0mm1m"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uoo8e"]
+albedo_color = Color(0.0352941, 0, 0, 0.141176)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ablk4"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(7, 2.5, 5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_erf6a"]
+points = PackedVector3Array(-3.5, 1.25, 2.5, 3.5, 1.25, -2.5, 3.5, 1.25, 2.5, -3.5, 1.25, -2.5, -3.5, -1.25, 2.5, 3.5, -1.25, -2.5, 3.5, -1.25, 2.5, -3.5, -1.25, -2.5, 3.5, 1.25, 2.5, -3.5, 1.25, -2.5, 3.5, 1.25, -2.5, -3.5, 1.25, 2.5, 3.5, -1.25, 2.5, -3.5, -1.25, -2.5, 3.5, -1.25, -2.5, -3.5, -1.25, 2.5, 3.5, 1.25, 2.5, -3.5, -1.25, 2.5, -3.5, 1.25, 2.5, 3.5, -1.25, 2.5, 3.5, 1.25, -2.5, -3.5, -1.25, -2.5, -3.5, 1.25, -2.5, 3.5, -1.25, -2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qp8d1"]
+size = Vector3(6.96054, 1, 5.24505)
+
+[sub_resource type="GDScript" id="GDScript_xwvv0"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_rot1t"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(7, 2.5, 5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nq7ti"]
+points = PackedVector3Array(-3.5, 1.25, 2.5, 3.5, 1.25, -2.5, 3.5, 1.25, 2.5, -3.5, 1.25, -2.5, -3.5, -1.25, 2.5, 3.5, -1.25, -2.5, 3.5, -1.25, 2.5, -3.5, -1.25, -2.5, 3.5, 1.25, 2.5, -3.5, 1.25, -2.5, 3.5, 1.25, -2.5, -3.5, 1.25, 2.5, 3.5, -1.25, 2.5, -3.5, -1.25, -2.5, 3.5, -1.25, -2.5, -3.5, -1.25, 2.5, 3.5, 1.25, 2.5, -3.5, -1.25, 2.5, -3.5, 1.25, 2.5, 3.5, -1.25, 2.5, 3.5, 1.25, -2.5, -3.5, -1.25, -2.5, -3.5, 1.25, -2.5, 3.5, -1.25, -2.5)
+
+[sub_resource type="GDScript" id="GDScript_0or4m"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_c70bf"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(7, 2.5, 5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ymdu2"]
+points = PackedVector3Array(-3.5, 1.25, 2.5, 3.5, 1.25, -2.5, 3.5, 1.25, 2.5, -3.5, 1.25, -2.5, -3.5, -1.25, 2.5, 3.5, -1.25, -2.5, 3.5, -1.25, 2.5, -3.5, -1.25, -2.5, 3.5, 1.25, 2.5, -3.5, 1.25, -2.5, 3.5, 1.25, -2.5, -3.5, 1.25, 2.5, 3.5, -1.25, 2.5, -3.5, -1.25, -2.5, 3.5, -1.25, -2.5, -3.5, -1.25, 2.5, 3.5, 1.25, 2.5, -3.5, -1.25, 2.5, -3.5, 1.25, 2.5, 3.5, -1.25, 2.5, 3.5, 1.25, -2.5, -3.5, -1.25, -2.5, -3.5, 1.25, -2.5, 3.5, -1.25, -2.5)
+
+[sub_resource type="GDScript" id="GDScript_gqo43"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_gfh6q"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(6.819, 1.126, 4.323)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_q8avr"]
+points = PackedVector3Array(-3.4095, 0.563, 2.1615, 3.4095, 0.563, -2.1615, 3.4095, 0.563, 2.1615, -3.4095, 0.563, -2.1615, -3.4095, -0.563, 2.1615, 3.4095, -0.563, -2.1615, 3.4095, -0.563, 2.1615, -3.4095, -0.563, -2.1615, 3.4095, 0.563, 2.1615, -3.4095, 0.563, -2.1615, 3.4095, 0.563, -2.1615, -3.4095, 0.563, 2.1615, 3.4095, -0.563, 2.1615, -3.4095, -0.563, -2.1615, 3.4095, -0.563, -2.1615, -3.4095, -0.563, 2.1615, 3.4095, 0.563, 2.1615, -3.4095, -0.563, 2.1615, -3.4095, 0.563, 2.1615, 3.4095, -0.563, 2.1615, 3.4095, 0.563, -2.1615, -3.4095, -0.563, -2.1615, -3.4095, 0.563, -2.1615, 3.4095, -0.563, -2.1615)
+
+[sub_resource type="GDScript" id="GDScript_jiag2"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_86qcn"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_nvxm6"]
+points = PackedVector3Array(-1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1)
+
+[sub_resource type="GDScript" id="GDScript_u3cjo"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_8ppkp"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_awyn6"]
+points = PackedVector3Array(-1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1)
+
+[sub_resource type="GDScript" id="GDScript_sd324"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_87vqy"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_y4icd"]
+points = PackedVector3Array(-1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1)
+
+[sub_resource type="GDScript" id="GDScript_uc8vy"]
+script/source = "extends RigidBody3D
+@export var speed: int = 1
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(_delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_53gim"]
+points = PackedVector3Array(-1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1)
+
+[sub_resource type="GDScript" id="GDScript_g6ric"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+var run = false
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(_delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_ce3ex"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_b278c"]
+points = PackedVector3Array(-1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1)
+
+[sub_resource type="GDScript" id="GDScript_kslrs"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+var run = false
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(_delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_j3frf"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_pfft6"]
+points = PackedVector3Array(-1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_besbr"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_pugbe"]
+points = PackedVector3Array(-1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1)
+
+[sub_resource type="GDScript" id="GDScript_ewjfs"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+var run = false
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_tavmi"]
+material = SubResource("StandardMaterial3D_uoo8e")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_cxhxf"]
+points = PackedVector3Array(-1, 1, 1, 1, 1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1)
+
+[sub_resource type="GDScript" id="GDScript_bxpq7"]
+script/source = "extends RigidBody3D
+@export var speed: int = 5
+@export var to = Vector3.ZERO:
+	set = set_to, get = get_to
+
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	set_axis_velocity(to * speed)
+	
+func set_to(value: Vector3) -> void:
+	to = value
+func get_to() -> Vector3:
+	return to
+"
+
+[sub_resource type="GDScript" id="GDScript_oofaw"]
+script/source = "extends RigidBody3D
+
+@onready var animation = $\"Animation\"
+
+@export var speed = 0.0
+@export var loop_rotation = false
+@export var ninety_degreess = false
+
+enum {  # index #
+	ZERO, # 0
+	UP,   # 1
+	DOWN, # 2
+	LEFT, # 3
+	RIGHT # 4 
+	}
+
+var current_state = LEFT:
+	set = set_current_state, 
+	get = get_current_state
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	match current_state:
+		ZERO:
+			set_axis_velocity(Vector3.ZERO)
+		UP:
+			set_axis_velocity(Vector3.UP * speed)
+			axis_lock_linear_x = true
+			axis_lock_linear_z = true
+			axis_lock_linear_y = false
+		DOWN:
+			set_axis_velocity(Vector3.DOWN * speed)
+			axis_lock_linear_x = true
+			axis_lock_linear_z = true
+			axis_lock_linear_y = false
+		LEFT:
+			set_axis_velocity(Vector3.LEFT * speed)
+			axis_lock_linear_x = false
+			axis_lock_linear_z = true
+			axis_lock_linear_y = true
+		RIGHT:
+			set_axis_velocity(Vector3.RIGHT * speed)
+			axis_lock_linear_x = false
+			axis_lock_linear_z = true
+			axis_lock_linear_y = true
+		
+	play_rotation_loop()
+	
+func set_current_state(value):
+	current_state = value
+	
+func get_current_state():
+	return current_state
+	
+func play_90_degrees():
+	if ninety_degreess:
+		animation.play(\"90_degrees\")
+		
+func play_rotation_loop():
+	if loop_rotation:
+		rotation.y += 0.01
+"
+
+[sub_resource type="GDScript" id="GDScript_iypra"]
+script/source = "extends RigidBody3D
+
+@onready var animation = $\"Animation\"
+
+@export var speed = 0.0
+@export var loop_rotation = false
+@export var ninety_degreess = false
+
+enum {  # index #
+	ZERO, # 0
+	UP,   # 1
+	DOWN, # 2
+	LEFT, # 3
+	RIGHT # 4 
+	}
+
+var current_state = RIGHT:
+	set = set_current_state, 
+	get = get_current_state
+
+func _ready() -> void:
+	gravity_scale = 0
+	
+func _physics_process(delta: float) -> void:
+	match current_state:
+		ZERO:
+			set_axis_velocity(Vector3.ZERO)
+		UP:
+			set_axis_velocity(Vector3.UP * speed)
+			axis_lock_linear_x = true
+			axis_lock_linear_z = true
+			axis_lock_linear_y = false
+		DOWN:
+			set_axis_velocity(Vector3.DOWN * speed)
+			axis_lock_linear_x = true
+			axis_lock_linear_z = true
+			axis_lock_linear_y = false
+		LEFT:
+			set_axis_velocity(Vector3.LEFT * speed)
+			axis_lock_linear_x = false
+			axis_lock_linear_z = true
+			axis_lock_linear_y = true
+		RIGHT:
+			set_axis_velocity(Vector3.RIGHT * speed)
+			axis_lock_linear_x = false
+			axis_lock_linear_z = true
+			axis_lock_linear_y = true
+		
+	play_rotation_loop()
+	
+func set_current_state(value):
+	current_state = value
+	
+func get_current_state():
+	return current_state
+	
+func play_90_degrees():
+	if ninety_degreess:
+		animation.play(\"90_degrees\")
+		
+func play_rotation_loop():
+	if loop_rotation:
+		rotation.y += 0.01
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_thdg5"]
+size = Vector3(5, 16.1298, 25.5299)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qtfp5"]
+size = Vector3(6.55761, 0.711219, 4.63847)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0kec5"]
+size = Vector3(0.920714, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sp2kx"]
+size = Vector3(0.920714, 1, 0.001)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fkw30"]
+size = Vector3(0.920714, 1, 0.001)
+
+[sub_resource type="GDScript" id="GDScript_sheb1"]
+script/source = "extends Area3D
+
+@export var new_speed: int = 0.5
+
+func _on_body_entered(body: Node3D) -> void:
+	if body.is_in_group(\"Plataforms\"):
+		if body.to != Vector3.ZERO:
+			
+			if body.get_to().x > 0:
+				body.set_to(Vector3.LEFT)
+			elif body.get_to().x < 0:
+				body.set_to(Vector3.RIGHT)
+				
+			if body.get_to().y > 0:
+				body.set_to(Vector3.DOWN)
+			elif body.get_to().y < 0:
+				body.set_to(Vector3.UP)
+				
+			if body.get_to().z > 0:
+				body.set_to(Vector3.FORWARD * body.speed)
+			elif body.get_to().z < 0:
+				body.set_to(Vector3.BACK * body.speed)
+		print(body.get_to())
+"
+
+[sub_resource type="GDScript" id="GDScript_30qex"]
+script/source = "extends Area3D
+
+@export var new_speed: int = 0.5
+
+func _on_body_entered(body: Node3D) -> void:
+	if body.is_in_group(\"Plataforms\"):
+		if body.to != Vector3.ZERO:
+			
+			if body.get_to().x > 0:
+				body.set_to(Vector3.LEFT)
+			elif body.get_to().x < 0:
+				body.set_to(Vector3.RIGHT)
+				
+			if body.get_to().y > 0:
+				body.set_to(Vector3.DOWN)
+			elif body.get_to().y < 0:
+				body.set_to(Vector3.UP)
+				
+			if body.get_to().z > 0:
+				body.set_to(Vector3.FORWARD * body.speed)
+			elif body.get_to().z < 0:
+				body.set_to(Vector3.BACK * body.speed)
+		print(body.get_to())
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tfly1"]
+size = Vector3(2.73862, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5skbo"]
+size = Vector3(2.6032, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_hdxhm"]
+script/source = "extends Area3D
+
+@export var new_speed: int = 0.5
+
+func _on_body_entered(body: Node3D) -> void:
+	if body.is_in_group(\"Plataforms\"):
+		if body.to != Vector3.ZERO:
+			
+			if body.get_to().x > 0:
+				body.set_to(Vector3.LEFT)
+			elif body.get_to().x < 0:
+				body.set_to(Vector3.RIGHT)
+				
+			if body.get_to().y > 0:
+				body.set_to(Vector3.DOWN)
+			elif body.get_to().y < 0:
+				body.set_to(Vector3.UP)
+				
+			if body.get_to().z > 0:
+				body.set_to(Vector3.FORWARD * body.speed)
+			elif body.get_to().z < 0:
+				body.set_to(Vector3.BACK * body.speed)
+		print(body.get_to())
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7cfvn"]
+size = Vector3(0.001, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_i2brn"]
+script/source = "extends Area3D
+
+@export var new_speed: int = 0.5
+
+func _on_body_entered(body: Node3D) -> void:
+	if body.is_in_group(\"Plataforms\"):
+		if body.to != Vector3.ZERO:
+			
+			if body.get_to().x > 0:
+				body.set_to(Vector3.LEFT)
+			elif body.get_to().x < 0:
+				body.set_to(Vector3.RIGHT)
+				
+			if body.get_to().y > 0:
+				body.set_to(Vector3.DOWN)
+			elif body.get_to().y < 0:
+				body.set_to(Vector3.UP)
+				
+			if body.get_to().z > 0:
+				body.set_to(Vector3.FORWARD * body.speed)
+			elif body.get_to().z < 0:
+				body.set_to(Vector3.BACK * body.speed)
+		print(body.get_to())
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8jfed"]
+size = Vector3(0.001, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5pelq"]
+size = Vector3(0.001, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j1bk6"]
+size = Vector3(0.920714, 1, 0.001)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nwulh"]
+size = Vector3(0.920714, 1, 0.001)
+
+[sub_resource type="GDScript" id="GDScript_n0nl0"]
+script/source = "extends Area3D
+
+@export var new_speed: int = 0.5
+
+func _on_body_entered(body: Node3D) -> void:
+	if body.is_in_group(\"Plataforms\"):
+		if body.to != Vector3.ZERO:
+			
+			if body.get_to().x > 0:
+				body.set_to(Vector3.LEFT)
+			elif body.get_to().x < 0:
+				body.set_to(Vector3.RIGHT)
+				
+			if body.get_to().y > 0:
+				body.set_to(Vector3.DOWN)
+			elif body.get_to().y < 0:
+				body.set_to(Vector3.UP)
+				
+			if body.get_to().z > 0:
+				body.set_to(Vector3.FORWARD * body.speed)
+			elif body.get_to().z < 0:
+				body.set_to(Vector3.BACK * body.speed)
+		print(body.get_to())
+"
+
+[sub_resource type="GDScript" id="GDScript_tf5tj"]
+script/source = "extends Area3D
+
+@export var new_speed: int = 0.5
+
+func _on_body_entered(body: Node3D) -> void:
+	if body.is_in_group(\"Plataforms\"):
+		if body.to != Vector3.ZERO:
+			
+			if body.get_to().x > 0:
+				body.set_to(Vector3.LEFT)
+			elif body.get_to().x < 0:
+				body.set_to(Vector3.RIGHT)
+				
+			if body.get_to().y > 0:
+				body.set_to(Vector3.DOWN)
+			elif body.get_to().y < 0:
+				body.set_to(Vector3.UP)
+				
+			if body.get_to().z > 0:
+				body.set_to(Vector3.FORWARD * body.speed)
+			elif body.get_to().z < 0:
+				body.set_to(Vector3.BACK * body.speed)
+		print(body.get_to())
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a1ic3"]
+size = Vector3(2.38702, 1, 0.001)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mrqn4"]
+size = Vector3(2.38702, 1, 0.001)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uung0"]
+
+[node name="Level" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_yjm03")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, -0.194269, 0.980948, 0, -0.980948, -0.194269, 0, 11.7047, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 11)
+script = ExtResource("1_i2fgv")
+
+[node name="Interactives" type="Node3D" parent="."]
+
+[node name="Character" parent="Interactives" instance=ExtResource("1_m2ipy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -8)
+acel_speed = 0.2
+
+[node name="Tarrains" type="Node3D" parent="Interactives"]
+
+[node name="Terain" type="MeshInstance3D" parent="Interactives/Tarrains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -8)
+mesh = SubResource("BoxMesh_afp2s")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Interactives/Tarrains/Terain"]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Tarrains/Terain/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_mgmdx")
+
+[node name="CameraManagement" parent="Interactives/Tarrains/Terain" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.36461, 0)
+new_position = Vector3(0, 6, 0)
+
+[node name="CollisionShape3D" parent="Interactives/Tarrains/Terain/CameraManagement" index="0"]
+shape = SubResource("BoxShape3D_yo6pa")
+
+[node name="Terain2" type="MeshInstance3D" parent="Interactives/Tarrains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.326, -42.774)
+mesh = SubResource("BoxMesh_r5v7m")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Interactives/Tarrains/Terain2"]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Tarrains/Terain2/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ru1i8")
+
+[node name="CameraManagement" parent="Interactives/Tarrains/Terain2" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85349, 0)
+new_position = Vector3(0, 16, 0)
+weight = 0.8
+
+[node name="CollisionShape3D" parent="Interactives/Tarrains/Terain2/CameraManagement" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.872396, 0)
+shape = SubResource("BoxShape3D_xe7sd")
+
+[node name="Terain3" type="MeshInstance3D" parent="Interactives/Tarrains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.326, -60.202)
+mesh = SubResource("BoxMesh_r5v7m")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Interactives/Tarrains/Terain3"]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Tarrains/Terain3/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ru1i8")
+
+[node name="CameraManagement" parent="Interactives/Tarrains/Terain3" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85349, 0)
+new_position = Vector3(0, 15, 0)
+weight = 0.7
+
+[node name="CollisionShape3D" parent="Interactives/Tarrains/Terain3/CameraManagement" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.872396, 0)
+shape = SubResource("BoxShape3D_xe7sd")
+
+[node name="Hall" type="MeshInstance3D" parent="Interactives/Tarrains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.305, -72.345)
+mesh = SubResource("BoxMesh_ftib1")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Interactives/Tarrains/Hall"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Tarrains/Hall/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_ce61l")
+
+[node name="Terain4" type="MeshInstance3D" parent="Interactives/Tarrains"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.326, -84.202)
+mesh = SubResource("BoxMesh_r5v7m")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Interactives/Tarrains/Terain4"]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Tarrains/Terain4/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ru1i8")
+
+[node name="CameraManagement" parent="Interactives/Tarrains/Terain4" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85349, 0)
+new_position = Vector3(0, 16, 0)
+weight = 0.6
+
+[node name="CollisionShape3D" parent="Interactives/Tarrains/Terain4/CameraManagement" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.872396, 0)
+shape = SubResource("BoxShape3D_xe7sd")
+
+[node name="Terain5" type="MeshInstance3D" parent="Interactives/Tarrains"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 12.326, -115.202)
+mesh = SubResource("BoxMesh_r5v7m")
+skeleton = NodePath("../../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Interactives/Tarrains/Terain5"]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Tarrains/Terain5/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ru1i8")
+
+[node name="CameraManagement" parent="Interactives/Tarrains/Terain5" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.85349, 0)
+new_position = Vector3(0, 15, 0)
+weight = 0.8
+
+[node name="CollisionShape3D" parent="Interactives/Tarrains/Terain5/CameraManagement" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.872396, 0)
+shape = SubResource("BoxShape3D_xe7sd")
+
+[node name="Plataforms" type="Node3D" parent="Interactives"]
+
+[node name="PartOne" type="Node3D" parent="Interactives/Plataforms"]
+
+[node name="PlataformRigi" type="RigidBody3D" parent="Interactives/Plataforms/PartOne" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.651, -16.661)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.23
+gravity_scale = 0.0
+script = SubResource("GDScript_0mm1m")
+to = Vector3(1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartOne/PlataformRigi"]
+mesh = SubResource("BoxMesh_ablk4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartOne/PlataformRigi"]
+shape = SubResource("ConvexPolygonShape3D_erf6a")
+
+[node name="CameraManagement" parent="Interactives/Plataforms/PartOne/PlataformRigi" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69642, 0)
+new_position = Vector3(0, 7, 0)
+weight = 0.8
+
+[node name="CollisionShape3D" parent="Interactives/Plataforms/PartOne/PlataformRigi/CameraManagement" index="0"]
+shape = SubResource("BoxShape3D_qp8d1")
+
+[node name="PlataformRigi2" type="RigidBody3D" parent="Interactives/Plataforms/PartOne" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.71056, -22.5069)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.23
+gravity_scale = 0.0
+script = SubResource("GDScript_xwvv0")
+to = Vector3(-1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartOne/PlataformRigi2"]
+mesh = SubResource("BoxMesh_rot1t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartOne/PlataformRigi2"]
+shape = SubResource("ConvexPolygonShape3D_nq7ti")
+
+[node name="CameraManagement" parent="Interactives/Plataforms/PartOne/PlataformRigi2" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69642, 0)
+new_position = Vector3(0, 8, 0)
+weight = 0.8
+
+[node name="CollisionShape3D" parent="Interactives/Plataforms/PartOne/PlataformRigi2/CameraManagement" index="0"]
+shape = SubResource("BoxShape3D_qp8d1")
+
+[node name="PlataformRigi3" type="RigidBody3D" parent="Interactives/Plataforms/PartOne" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.83399, -28.8479)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.23
+gravity_scale = 0.0
+script = SubResource("GDScript_0or4m")
+to = Vector3(1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartOne/PlataformRigi3"]
+mesh = SubResource("BoxMesh_c70bf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartOne/PlataformRigi3"]
+shape = SubResource("ConvexPolygonShape3D_ymdu2")
+
+[node name="CameraManagement" parent="Interactives/Plataforms/PartOne/PlataformRigi3" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69642, 0)
+new_position = Vector3(0, 9, 0)
+weight = 0.8
+
+[node name="CollisionShape3D" parent="Interactives/Plataforms/PartOne/PlataformRigi3/CameraManagement" index="0"]
+shape = SubResource("BoxShape3D_qp8d1")
+
+[node name="PlataformRigi4" type="RigidBody3D" parent="Interactives/Plataforms/PartOne" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.83399, -36.8474)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_gqo43")
+speed = 2
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartOne/PlataformRigi4"]
+mesh = SubResource("BoxMesh_gfh6q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartOne/PlataformRigi4"]
+shape = SubResource("ConvexPolygonShape3D_q8avr")
+
+[node name="CameraManagement" parent="Interactives/Plataforms/PartOne/PlataformRigi4" instance=ExtResource("9_06usk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69642, 0)
+new_position = Vector3(0, 12, 0)
+weight = 0.8
+
+[node name="CollisionShape3D" parent="Interactives/Plataforms/PartOne/PlataformRigi4/CameraManagement" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.872396, 0)
+shape = SubResource("BoxShape3D_xe7sd")
+
+[node name="PartTwo" type="Node3D" parent="Interactives/Plataforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.04182, 0.253, 9.605)
+
+[node name="CubeRig" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.483545, 12.5546, -55.5499)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_jiag2")
+speed = 1
+to = Vector3(1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig"]
+mesh = SubResource("BoxMesh_86qcn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig"]
+shape = SubResource("ConvexPolygonShape3D_nvxm6")
+
+[node name="CubeRig2" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.04971, 12.5546, -55.5499)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_u3cjo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig2"]
+mesh = SubResource("BoxMesh_8ppkp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig2"]
+shape = SubResource("ConvexPolygonShape3D_awyn6")
+
+[node name="CubeRig19" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.10955, 12.5546, -61.6653)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_u3cjo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig19"]
+mesh = SubResource("BoxMesh_8ppkp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig19"]
+shape = SubResource("ConvexPolygonShape3D_awyn6")
+
+[node name="CubeRig8" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.10248, 12.5546, -55.5499)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_sd324")
+speed = 1
+to = Vector3(0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig8"]
+mesh = SubResource("BoxMesh_87vqy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig8"]
+shape = SubResource("ConvexPolygonShape3D_y4icd")
+
+[node name="CubeRig9" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.102, 12.555, -59.619)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_uc8vy")
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig9"]
+mesh = SubResource("BoxMesh_87vqy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig9"]
+shape = SubResource("ConvexPolygonShape3D_y4icd")
+
+[node name="CubeRig12" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.94551, 13.1994, -61.6328)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_uc8vy")
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig12"]
+mesh = SubResource("BoxMesh_87vqy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig12"]
+shape = SubResource("ConvexPolygonShape3D_y4icd")
+
+[node name="CubeRig13" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0544918, 12.5546, -61.6328)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_uc8vy")
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig13"]
+mesh = SubResource("BoxMesh_87vqy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig13"]
+shape = SubResource("ConvexPolygonShape3D_y4icd")
+
+[node name="CubeRig14" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.159143, 12.5546, -59.619)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_uc8vy")
+to = Vector3(1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig14"]
+mesh = SubResource("BoxMesh_87vqy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig14"]
+shape = SubResource("ConvexPolygonShape3D_y4icd")
+
+[node name="CubeRig3" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0294, 12.5546, -55.5499)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_u3cjo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig3"]
+mesh = SubResource("BoxMesh_8ppkp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig3"]
+shape = SubResource("ConvexPolygonShape3D_53gim")
+
+[node name="CubeRig4" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.11932, 12.5546, -55.5499)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_g6ric")
+speed = 1
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig4"]
+mesh = SubResource("BoxMesh_ce3ex")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig4"]
+shape = SubResource("ConvexPolygonShape3D_b278c")
+
+[node name="CubeRig5" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.24676, 12.5546, -57.5884)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_kslrs")
+speed = 1
+to = Vector3(1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig5"]
+mesh = SubResource("BoxMesh_j3frf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig5"]
+shape = SubResource("ConvexPolygonShape3D_pfft6")
+
+[node name="CubeRig6" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00895, 12.5546, -57.5903)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = ExtResource("2_f7yf5")
+speed = 1.0
+to = Vector3(0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig6"]
+mesh = SubResource("BoxMesh_besbr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig6"]
+shape = SubResource("ConvexPolygonShape3D_pugbe")
+
+[node name="CubeRig10" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.009, 12.555, -60.2285)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = ExtResource("2_f7yf5")
+speed = 1.0
+to = Vector3(0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig10"]
+mesh = SubResource("BoxMesh_besbr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig10"]
+shape = SubResource("ConvexPolygonShape3D_pugbe")
+
+[node name="CubeRig11" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.009, 12.555, -60.2285)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = ExtResource("2_f7yf5")
+speed = 1.5
+to = Vector3(0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig11"]
+mesh = SubResource("BoxMesh_besbr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig11"]
+shape = SubResource("ConvexPolygonShape3D_pugbe")
+
+[node name="CubeRig7" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0303264, 12.5546, -57.5903)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_ewjfs")
+speed = 1
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig7"]
+mesh = SubResource("BoxMesh_tavmi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig7"]
+shape = SubResource("ConvexPolygonShape3D_cxhxf")
+
+[node name="CubeRig15" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.11932, 12.5416, -66.5499)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_g6ric")
+speed = 1
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig15"]
+mesh = SubResource("BoxMesh_ce3ex")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig15"]
+shape = SubResource("ConvexPolygonShape3D_b278c")
+
+[node name="CubeRig16" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.24676, 12.5416, -64.5884)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_kslrs")
+speed = 1
+to = Vector3(1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig16"]
+mesh = SubResource("BoxMesh_j3frf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig16"]
+shape = SubResource("ConvexPolygonShape3D_pfft6")
+
+[node name="CubeRig17" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00895, 12.5416, -66.5903)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = ExtResource("2_f7yf5")
+speed = 1.0
+to = Vector3(0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig17"]
+mesh = SubResource("BoxMesh_besbr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig17"]
+shape = SubResource("ConvexPolygonShape3D_pugbe")
+
+[node name="CubeRig18" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.48355, 12.5416, -66.5499)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_bxpq7")
+speed = 1
+to = Vector3(-1, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig18"]
+mesh = SubResource("BoxMesh_86qcn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig18"]
+shape = SubResource("ConvexPolygonShape3D_nvxm6")
+
+[node name="CubeRig20" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.102, 12.542, -63.6819)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_uc8vy")
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig20"]
+mesh = SubResource("BoxMesh_87vqy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig20"]
+shape = SubResource("ConvexPolygonShape3D_y4icd")
+
+[node name="CubeRig21" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.102, 12.529, -66.55)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_g6ric")
+speed = 1
+to = Vector3(0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig21"]
+mesh = SubResource("BoxMesh_ce3ex")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig21"]
+shape = SubResource("ConvexPolygonShape3D_b278c")
+
+[node name="CubeRig22" type="RigidBody3D" parent="Interactives/Plataforms/PartTwo" groups=["Plataforms", "Platarforms"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.10248, 12.5416, -62.6197)
+collision_layer = 4
+collision_mask = 15
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+script = SubResource("GDScript_sd324")
+speed = 1
+to = Vector3(0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interactives/Plataforms/PartTwo/CubeRig22"]
+mesh = SubResource("BoxMesh_87vqy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Plataforms/PartTwo/CubeRig22"]
+shape = SubResource("ConvexPolygonShape3D_y4icd")
+
+[node name="PartThree" type="Node3D" parent="Interactives/Plataforms"]
+
+[node name="CubeInte" parent="Interactives/Plataforms/PartThree" instance=ExtResource("3_o1q4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.2784, -65.6235)
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+freeze_mode = 1
+speed = 7.0
+
+[node name="CubeInte2" parent="Interactives/Plataforms/PartThree" instance=ExtResource("3_o1q4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.2784, -72.6235)
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+freeze_mode = 1
+speed = 7.0
+ninety_degreess = true
+
+[node name="CubeInte3" parent="Interactives/Plataforms/PartThree" instance=ExtResource("3_o1q4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.2784, -79.6235)
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+freeze_mode = 1
+script = SubResource("GDScript_oofaw")
+speed = 7.0
+loop_rotation = true
+
+[node name="CubeInte4" parent="Interactives/Plataforms/PartThree" instance=ExtResource("3_o1q4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.1881, -79.6235)
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 0.01
+gravity_scale = 0.0
+freeze_mode = 1
+script = SubResource("GDScript_iypra")
+speed = 7.0
+loop_rotation = true
+
+[node name="PartFour" type="Node3D" parent="Interactives/Plataforms"]
+
+[node name="Star" parent="Interactives/Plataforms/PartFour" instance=ExtResource("4_u12wa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, -89)
+
+[node name="Star2" parent="Interactives/Plataforms/PartFour" instance=ExtResource("4_u12wa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, -92)
+
+[node name="Star3" parent="Interactives/Plataforms/PartFour" instance=ExtResource("4_u12wa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, -95)
+
+[node name="CubeRotateY" parent="Interactives/Plataforms/PartFour" instance=ExtResource("6_1ntcc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -104)
+
+[node name="Retuners" type="Node3D" parent="Interactives"]
+
+[node name="PartOne" type="Node3D" parent="Interactives/Retuners"]
+
+[node name="return_plataform" type="Area3D" parent="Interactives/Retuners/PartOne"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, -19.8548)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartOne/return_plataform"]
+shape = SubResource("BoxShape3D_thdg5")
+
+[node name="return_plataform3" type="Area3D" parent="Interactives/Retuners/PartOne"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, -19.8548)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartOne/return_plataform3"]
+shape = SubResource("BoxShape3D_thdg5")
+
+[node name="return_plataform2" type="Area3D" parent="Interactives/Retuners/PartOne"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.4377, -36.847)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartOne/return_plataform2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0213795, -0.00307274, 0)
+shape = SubResource("BoxShape3D_qtfp5")
+
+[node name="return_plataform4" type="Area3D" parent="Interactives/Retuners/PartOne"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.66611, -36.847)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartOne/return_plataform4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0213795, -0.00307274, 0)
+shape = SubResource("BoxShape3D_qtfp5")
+
+[node name="PartTwo" type="Node3D" parent="Interactives/Retuners"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.04182, 0.24, 9.605)
+
+[node name="return_plataform5" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.46297, 12.3793, -55.6619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform5"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform14" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05693, 12.6513, -54.0477)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform14"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform15" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05693, 12.6513, -58.5749)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform15"]
+shape = SubResource("BoxShape3D_sp2kx")
+
+[node name="return_plataform37" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05693, 12.6513, -60.6691)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform37"]
+shape = SubResource("BoxShape3D_fkw30")
+
+[node name="return_plataform38" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05693, 12.6513, -65.5149)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform38"]
+shape = SubResource("BoxShape3D_sp2kx")
+
+[node name="return_plataform16" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.189, 15.846, -59.619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform16"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform17" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.189, 9.758, -59.619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform17"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform33" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.189, 14.1009, -63.6819)
+collision_layer = 8
+collision_mask = 4
+script = SubResource("GDScript_sheb1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform33"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform34" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.189, 9.38588, -63.6819)
+collision_layer = 8
+collision_mask = 4
+script = SubResource("GDScript_30qex")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform34"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform21" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05827, 17.135, -61.6246)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform21"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.771011, 0)
+shape = SubResource("BoxShape3D_tfly1")
+
+[node name="return_plataform22" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05827, 7.98689, -61.6246)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform22"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65845, 0)
+shape = SubResource("BoxShape3D_5skbo")
+
+[node name="return_plataform6" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.33032, 12.3793, -55.6619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.132622, 0, 0)
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform31" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53703, 12.3793, -66.6619)
+collision_layer = 8
+collision_mask = 4
+script = SubResource("GDScript_hdxhm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform31"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.513042, 0, 0)
+shape = SubResource("BoxShape3D_7cfvn")
+
+[node name="return_plataform32" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.08117, 12.3793, -66.6619)
+collision_layer = 8
+collision_mask = 4
+script = SubResource("GDScript_i2brn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform32"]
+shape = SubResource("BoxShape3D_8jfed")
+
+[node name="return_plataform7" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.02739, 9.27299, -55.6619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform7"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform8" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.13244, 14.8901, -55.6619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform8"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform25" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.02739, 9.27299, -66.6619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform25"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform26" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.13244, 14.8901, -66.6619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform26"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform35" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.37662, 9.27299, -66.6619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform35"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform36" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.27157, 14.8901, -66.6619)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform36"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform9" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.127004, 10.259, -57.6033)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform9"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform10" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.119158, 15.9008, -57.7179)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform10"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform11" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.61318, 12.74, -57.7179)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform11"]
+transform = Transform3D(0.301612, 0, 0, 0, 1, 0, 0, 0, 1, -0.411628, 0, 0)
+shape = SubResource("BoxShape3D_5pelq")
+
+[node name="return_plataform13" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88924, 12.74, -56.5723)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform13"]
+shape = SubResource("BoxShape3D_j1bk6")
+
+[node name="return_plataform18" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88924, 12.74, -60.6115)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform18"]
+shape = SubResource("BoxShape3D_nwulh")
+
+[node name="return_plataform29" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11076, 12.74, -62.6857)
+collision_layer = 8
+collision_mask = 4
+script = SubResource("GDScript_n0nl0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform29"]
+shape = SubResource("BoxShape3D_j1bk6")
+
+[node name="return_plataform30" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11076, 12.74, -69.6115)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform30"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+shape = SubResource("BoxShape3D_nwulh")
+
+[node name="return_plataform23" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.940902, 12.6762, -59.6428)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform23"]
+shape = SubResource("BoxShape3D_nwulh")
+
+[node name="return_plataform24" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3.06988, 12.6762, -59.6428)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform24"]
+shape = SubResource("BoxShape3D_nwulh")
+
+[node name="return_plataform19" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.10612, 12.6652, -63.5601)
+collision_layer = 8
+collision_mask = 4
+script = SubResource("GDScript_tf5tj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform19"]
+shape = SubResource("BoxShape3D_a1ic3")
+
+[node name="return_plataform20" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.10612, 12.6652, -58.6087)
+collision_layer = 8
+collision_mask = 4
+script = SubResource("GDScript_tf5tj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform20"]
+shape = SubResource("BoxShape3D_mrqn4")
+
+[node name="return_plataform12" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.58137, 12.74, -57.7414)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform12"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="return_plataform27" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.61318, 12.74, -64.7179)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform27"]
+transform = Transform3D(0.301612, 0, 0, 0, 1, 0, 0, 0, 1, -0.411628, 0, 0)
+shape = SubResource("BoxShape3D_5pelq")
+
+[node name="return_plataform28" type="Area3D" parent="Interactives/Retuners/PartTwo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.58137, 12.74, -64.7414)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("6_u274o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartTwo/return_plataform28"]
+shape = SubResource("BoxShape3D_0kec5")
+
+[node name="PartThree" type="Node3D" parent="Interactives/Retuners"]
+
+[node name="Changer" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.70672, 15.0362, -65.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.141956, 0, 0)
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer2" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.70672, 9.2406, -65.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer2"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer3" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.80548, 11.2406, -65.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer3"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer4" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.84655, 17.0647, -65.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer4"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer5" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.70672, 15.0362, -72.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.141956, 0, 0)
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer6" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.70672, 9.2406, -72.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer6"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer7" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.80548, 11.2406, -72.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer7"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer8" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.84655, 17.0647, -72.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer8"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer9" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.70672, 15.0362, -79.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.141956, 0, 0)
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer10" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.70672, 9.2406, -79.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer10"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer11" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.80548, 11.2406, -79.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer11"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Changer12" type="Area3D" parent="Interactives/Retuners/PartThree"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.84655, 17.0647, -79.6154)
+collision_layer = 16
+collision_mask = 4
+script = ExtResource("5_2q3u3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactives/Retuners/PartThree/Changer12"]
+shape = SubResource("BoxShape3D_uung0")
+
+[node name="Camera" type="Node3D" parent="Interactives"]
+
+[connection signal="body_entered" from="Interactives/Retuners/PartOne/return_plataform" to="Interactives/Retuners/PartOne/return_plataform" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartOne/return_plataform3" to="Interactives/Retuners/PartOne/return_plataform3" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartOne/return_plataform2" to="Interactives/Retuners/PartOne/return_plataform2" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartOne/return_plataform4" to="Interactives/Retuners/PartOne/return_plataform4" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform5" to="Interactives/Retuners/PartTwo/return_plataform5" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform14" to="Interactives/Retuners/PartTwo/return_plataform14" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform15" to="Interactives/Retuners/PartTwo/return_plataform15" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform37" to="Interactives/Retuners/PartTwo/return_plataform37" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform38" to="Interactives/Retuners/PartTwo/return_plataform38" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform16" to="Interactives/Retuners/PartTwo/return_plataform16" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform17" to="Interactives/Retuners/PartTwo/return_plataform17" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform33" to="Interactives/Retuners/PartTwo/return_plataform33" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform34" to="Interactives/Retuners/PartTwo/return_plataform34" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform21" to="Interactives/Retuners/PartTwo/return_plataform21" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform22" to="Interactives/Retuners/PartTwo/return_plataform22" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform6" to="Interactives/Retuners/PartTwo/return_plataform6" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform31" to="Interactives/Retuners/PartTwo/return_plataform31" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform32" to="Interactives/Retuners/PartTwo/return_plataform32" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform7" to="Interactives/Retuners/PartTwo/return_plataform7" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform8" to="Interactives/Retuners/PartTwo/return_plataform8" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform25" to="Interactives/Retuners/PartTwo/return_plataform25" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform26" to="Interactives/Retuners/PartTwo/return_plataform26" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform35" to="Interactives/Retuners/PartTwo/return_plataform35" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform36" to="Interactives/Retuners/PartTwo/return_plataform36" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform9" to="Interactives/Retuners/PartTwo/return_plataform9" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform10" to="Interactives/Retuners/PartTwo/return_plataform10" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform11" to="Interactives/Retuners/PartTwo/return_plataform11" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform13" to="Interactives/Retuners/PartTwo/return_plataform13" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform18" to="Interactives/Retuners/PartTwo/return_plataform18" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform29" to="Interactives/Retuners/PartTwo/return_plataform29" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform30" to="Interactives/Retuners/PartTwo/return_plataform30" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform23" to="Interactives/Retuners/PartTwo/return_plataform23" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform24" to="Interactives/Retuners/PartTwo/return_plataform24" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform19" to="Interactives/Retuners/PartTwo/return_plataform19" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform20" to="Interactives/Retuners/PartTwo/return_plataform20" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform12" to="Interactives/Retuners/PartTwo/return_plataform12" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform27" to="Interactives/Retuners/PartTwo/return_plataform27" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartTwo/return_plataform28" to="Interactives/Retuners/PartTwo/return_plataform28" method="_on_body_entered" flags=18]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer" to="Interactives/Retuners/PartThree/Changer" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer2" to="Interactives/Retuners/PartThree/Changer2" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer3" to="Interactives/Retuners/PartThree/Changer3" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer4" to="Interactives/Retuners/PartThree/Changer4" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer5" to="Interactives/Retuners/PartThree/Changer5" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer6" to="Interactives/Retuners/PartThree/Changer6" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer7" to="Interactives/Retuners/PartThree/Changer7" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer8" to="Interactives/Retuners/PartThree/Changer8" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer9" to="Interactives/Retuners/PartThree/Changer9" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer10" to="Interactives/Retuners/PartThree/Changer10" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer11" to="Interactives/Retuners/PartThree/Changer11" method="_on_body_entered"]
+[connection signal="body_entered" from="Interactives/Retuners/PartThree/Changer12" to="Interactives/Retuners/PartThree/Changer12" method="_on_body_entered"]
+
+[editable path="Interactives/Tarrains/Terain/CameraManagement"]
+[editable path="Interactives/Tarrains/Terain2/CameraManagement"]
+[editable path="Interactives/Tarrains/Terain3/CameraManagement"]
+[editable path="Interactives/Tarrains/Terain4/CameraManagement"]
+[editable path="Interactives/Tarrains/Terain5/CameraManagement"]
+[editable path="Interactives/Plataforms/PartOne/PlataformRigi/CameraManagement"]
+[editable path="Interactives/Plataforms/PartOne/PlataformRigi2/CameraManagement"]
+[editable path="Interactives/Plataforms/PartOne/PlataformRigi3/CameraManagement"]
+[editable path="Interactives/Plataforms/PartOne/PlataformRigi4/CameraManagement"]

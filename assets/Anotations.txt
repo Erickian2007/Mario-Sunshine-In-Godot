@@ -1,0 +1,1 @@
+* adicionar um Character3D na plataforma para criar a lei da inecia

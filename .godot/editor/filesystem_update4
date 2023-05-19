@@ -1,0 +1,7 @@
+res://src/objects_intelligent/plataform_intelligent/plataform_intelligent.tscn
+res://src/objects_intelligent/plataform_intelligent/scripts/plataform_intelligent.gd
+res://src/physics_bodys/character/character.tscn
+res://src/physics_bodys/character/scripts/character.gd
+res://src/levels/test_level/test_level.tscn
+res://src/objects_intelligent/ramp/ramp.tscn
+res://src/objects_intelligent/ramp/scripts/detection_slide.gd

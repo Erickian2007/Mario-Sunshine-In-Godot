@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://dskihxmbqu4av"]
+
+[ext_resource type="Script" path="res://src/objects_intelligent/cube_intelligent/scritps/cube_intelligent.gd" id="1_rm4lw"]
+[ext_resource type="Texture2D" uid="uid://cucgybt6ybemg" path="res://resources/third_person_controller_assets-main/textures/grids/Orange/texture_01.png" id="2_wbhbl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ca2i"]
+albedo_texture = ExtResource("2_wbhbl")
+
+[sub_resource type="BoxMesh" id="BoxMesh_00ryd"]
+material = SubResource("StandardMaterial3D_1ca2i")
+size = Vector3(2.5, 2.5, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oghcy"]
+size = Vector3(2.5, 2.5, 2.5)
+
+[sub_resource type="Animation" id="Animation_34bru"]
+resource_name = "90_degrees"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -1.5708)]
+}
+
+[sub_resource type="Animation" id="Animation_5pg2v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_taih6"]
+_data = {
+"90_degrees": SubResource("Animation_34bru"),
+"RESET": SubResource("Animation_5pg2v")
+}
+
+[node name="CubeInte" type="RigidBody3D" groups=["Plataforms"]]
+collision_layer = 4
+collision_mask = 23
+script = ExtResource("1_rm4lw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_00ryd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_oghcy")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+speed_scale = 1.5
+libraries = {
+"": SubResource("AnimationLibrary_taih6")
+}

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bla3u65cmosol"]
+
+[ext_resource type="Script" path="res://src/return/scritps/return_plataform.gd" id="1_42nki"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0kec5"]
+size = Vector3(0.001, 1, 1)
+
+[node name="return_plataform" type="Area3D"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_42nki")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_0kec5")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

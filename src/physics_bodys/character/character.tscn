@@ -1,0 +1,162 @@
+[gd_scene load_steps=28 format=3 uid="uid://cgvpwcaaykwne"]
+
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/character.gd" id="1_t27yr"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/others/Collisions/body.gd" id="2_n0s5n"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/animation/animation.gd" id="3_r0s76"]
+[ext_resource type="PackedScene" uid="uid://b7020hjp71pkt" path="res://resources/3d/gobot/3DGodotRobot.glb" id="4_3hot7"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/gui/fps.gd" id="5_3gtpn"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/camera/camera_arm.gd" id="6_bsa14"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rq68i"]
+radius = 0.329508
+height = 1.28971
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ja8f8"]
+animation = &"Dive"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1wjv3"]
+animation = &"Fall"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s0s8p"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ehsdw"]
+animation = &"Jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vsxia"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lg6x8"]
+xfade_time = 0.19
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mw6yg"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_poyf3"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_llo5l"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jpcds"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5c03d"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o6tk7"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eaxmw"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_en663"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wuod5"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lvbp7"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nndr3"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jg5m5"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_lvexg"]
+states/Dive/node = SubResource("AnimationNodeAnimation_ja8f8")
+states/Dive/position = Vector2(506.336, 106.088)
+states/End/position = Vector2(937.333, 107.731)
+states/Fall/node = SubResource("AnimationNodeAnimation_1wjv3")
+states/Fall/position = Vector2(782.905, 407.719)
+states/Idle/node = SubResource("AnimationNodeAnimation_s0s8p")
+states/Idle/position = Vector2(10.242, -48.309)
+states/Jump/node = SubResource("AnimationNodeAnimation_ehsdw")
+states/Jump/position = Vector2(10.1427, 408.589)
+states/Run/node = SubResource("AnimationNodeAnimation_vsxia")
+states/Run/position = Vector2(782.335, -48.2508)
+states/Start/position = Vector2(-122.666, 107.159)
+transitions = ["Jump", "Fall", SubResource("AnimationNodeStateMachineTransition_lg6x8"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_mw6yg"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_poyf3"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_llo5l"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_jpcds"), "Idle", "Fall", SubResource("AnimationNodeStateMachineTransition_5c03d"), "Fall", "Run", SubResource("AnimationNodeStateMachineTransition_o6tk7"), "Run", "Fall", SubResource("AnimationNodeStateMachineTransition_eaxmw"), "Fall", "Dive", SubResource("AnimationNodeStateMachineTransition_en663"), "Dive", "Idle", SubResource("AnimationNodeStateMachineTransition_wuod5"), "Dive", "Run", SubResource("AnimationNodeStateMachineTransition_lvbp7"), "Fall", "Idle", SubResource("AnimationNodeStateMachineTransition_nndr3"), "Idle", "Dive", SubResource("AnimationNodeStateMachineTransition_jg5m5")]
+graph_offset = Vector2(-233.664, -133.169)
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_l68ld"]
+
+[node name="Character" type="CharacterBody3D" groups=["Player"]]
+collision_mask = 38
+floor_stop_on_slope = false
+script = ExtResource("1_t27yr")
+mass = 4
+jump_velocity = 13
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.578472, 0, 0, 0, 0.578472, 0, 0, 0, 0.578472, 0, 0.35251, 0)
+shape = SubResource("CapsuleShape3D_rq68i")
+script = ExtResource("2_n0s5n")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_lvexg")
+anim_player = NodePath("../Model/AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_l68ld")
+script = ExtResource("3_r0s76")
+
+[node name="Model" parent="." instance=ExtResource("4_3hot7")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="RobotArmature" parent="Model" index="0"]
+transform = Transform3D(-0.578472, 0, -8.73468e-08, 0, 0.578472, 0, 8.73468e-08, 0, -0.578472, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Model/RobotArmature" index="0"]
+bones/0/position = Vector3(-3.5256e-16, 0.861288, 0.0298551)
+bones/0/rotation = Quaternion(0.0149092, 1.19196e-07, 1.77731e-09, 0.999889)
+bones/1/rotation = Quaternion(0.0294489, -1.52236e-14, 7.02117e-09, 0.999566)
+bones/4/position = Vector3(-3.65722e-16, 0.151501, -0.011741)
+bones/4/rotation = Quaternion(0.00540027, -1.19208e-07, -6.43763e-10, 0.999985)
+bones/5/rotation = Quaternion(0.00821238, -4.94291e-14, -1.95798e-09, 0.999966)
+bones/8/position = Vector3(9.97907e-08, 0.0611572, 0.418552)
+bones/9/position = Vector3(0.267321, 0.0764982, -0.028224)
+bones/9/rotation = Quaternion(-0.523067, -0.457802, -0.521926, 0.49438)
+bones/10/rotation = Quaternion(-0.356441, 0.617847, -0.433107, 0.551029)
+bones/12/rotation = Quaternion(0.0209349, 0.0170217, -0.0176714, 0.99948)
+bones/13/position = Vector3(-0.267321, 0.0764982, -0.028224)
+bones/13/rotation = Quaternion(-0.523067, 0.457802, 0.521926, 0.49438)
+bones/14/rotation = Quaternion(-0.356441, -0.617847, 0.433107, 0.551029)
+bones/16/rotation = Quaternion(0.0209349, -0.0170217, 0.0176714, 0.99948)
+bones/17/rotation = Quaternion(0.991415, 0.0203396, -0.00748625, 0.128945)
+bones/18/rotation = Quaternion(0.249628, 0.00871771, 0.024974, 0.967981)
+bones/19/rotation = Quaternion(-0.608714, 0.00331542, -0.00479121, 0.793368)
+bones/21/rotation = Quaternion(0.991415, -0.0203396, 0.00748626, 0.128945)
+bones/22/rotation = Quaternion(0.249628, -0.00871766, -0.0249741, 0.967981)
+bones/23/rotation = Quaternion(-0.608714, -0.00331544, 0.00479126, 0.793368)
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="GUI"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = 88.0
+offset_bottom = 53.0
+text = "FPS: 999"
+script = ExtResource("5_3gtpn")
+
+[node name="SpringArm" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.905768, 0.423773, 0, -0.423773, 0.905768, 0, 0.732121, 0)
+top_level = true
+collision_mask = 0
+spring_length = 5.0
+script = ExtResource("6_bsa14")
+
+[node name="Camera" type="Camera3D" parent="SpringArm"]
+current = true
+
+[editable path="Model"]
