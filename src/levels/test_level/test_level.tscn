@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" path="res://src/objects_intelligent/cube_rotate/cube_rotate.tscn" id="6_a51fn"]
 [ext_resource type="PackedScene" uid="uid://bla3u65cmosol" path="res://src/return/return_plataform.tscn" id="6_nea1j"]
 [ext_resource type="Texture2D" uid="uid://c056cy1n7gmmw" path="res://resources/third_person_controller_assets-main/textures/grids/Dark/texture_07.png" id="7_h628v"]
-[ext_resource type="PackedScene" uid="uid://cgvpwcaaykwne" path="res://src/physics_bodys/character/character.tscn" id="11_h3wlt"]
+[ext_resource type="PackedScene" uid="uid://cgvpwcaaykwne" path="res://src/physics_bodys/character/player.tscn" id="11_h3wlt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sji3n"]
 
@@ -97,7 +97,7 @@ func _process(delta: float) -> void:
 func _on_body_entered(body: Node3D) -> void:
 	arm = body.get_node(\"SpringArm\")
 	
-func _on_body_exited(body: Node3D) -> void:
+func _on_body_exited(_body: Node3D) -> void:
 	arm = null
 "
 

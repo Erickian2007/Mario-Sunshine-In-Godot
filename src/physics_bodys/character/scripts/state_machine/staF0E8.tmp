@@ -1,0 +1,21 @@
+extends Node
+
+
+var animation: PlayerAnimation = PlayerAnimation.new()
+enum {IDLE, RUN, JUMP, WALL_JUMP}
+var state: int = IDLE
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	pass
+
+func move() -> void:
+	var input_dir: Vector3 = Vector3.ZERO
+	input_dir.x = Input.get_action_strength("right") - Input.get_action_strength("left")
+	input_dir.z = Input.get_action_strength("down") - Input.get_action_strength("up")
+	input_dir = input_dir.rotated(Vector3.UP, p.spring_arm.rotation.y).normalized()

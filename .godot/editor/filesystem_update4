@@ -1,7 +1,5 @@
-res://src/objects_intelligent/plataform_intelligent/plataform_intelligent.tscn
-res://src/objects_intelligent/plataform_intelligent/scripts/plataform_intelligent.gd
-res://src/physics_bodys/character/character.tscn
-res://src/physics_bodys/character/scripts/character.gd
+res://src/physics_bodys/character/player.tscn
+res://src/physics_bodys/character/scripts/camera/camera_arm.gd
 res://src/levels/test_level/test_level.tscn
-res://src/objects_intelligent/ramp/ramp.tscn
-res://src/objects_intelligent/ramp/scripts/detection_slide.gd
+res://src/objects_intelligent/plataform_intelligent/plataform_intelligent.tscn
+res://src/levels/level_1/level_1.tscn

@@ -3,6 +3,7 @@ extends SpringArm3D
 @onready var parent = $".."
 #@onready var default_rotation = $"DefaultRotation"
 @onready var model = parent.get_node("Model")
+@onready var face_model: MeshInstance3D = model.get_node("RobotArmature/Skeleton3D/Face")
 
 @export var default_height_y: float
 
@@ -37,7 +38,7 @@ func _input(event: InputEvent) -> void:
 			rotation.y -= deg_to_rad(event.relative.x * mouse_sensibility)
 			rotation.x -= deg_to_rad(event.relative.y * mouse_sensibility)
 			
-			
+		_rotation_body(event)
 			
 	if event is InputEventJoypadMotion and has_controller:
 		if event.get_axis() == JOY_AXIS_RIGHT_X:
@@ -58,7 +59,7 @@ func _process(delta: float) -> void:
 	_get_position_of_parent(delta)
 	_rotation_coarse(delta)
 	
-func _get_position_of_parent(delta: float) -> void:
+func _get_position_of_parent(_delta: float) -> void:
 	position.z = parent.position.z
 	position.x = parent.position.x
 #	if parent.is_on_floor():
@@ -67,7 +68,11 @@ func _get_position_of_parent(delta: float) -> void:
 #			default_height_y,
 #			delta * position_y_force
 #			)
-func _rotation_coarse(delta: float) -> void:
+func _rotation_coarse(_delta: float) -> void:
 	if can_look_back:
 		rotation.y = lerp_angle(rotation.y, model.rotation.y, look_back_weight)
 	
+func _rotation_body(mouse_event: InputEventMouseMotion) -> void:
+	face_model.rotation.y = lerp_angle(face_model.rotation.y, rotation.y, 0.05)
+	print(face_model.rotation.y)
+	pass

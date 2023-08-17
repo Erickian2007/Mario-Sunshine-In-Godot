@@ -1,0 +1,13 @@
+list=[{
+"base": &"Area3D",
+"class": &"DetectionSlide",
+"icon": "",
+"language": &"GDScript",
+"path": "res://src/objects_intelligent/ramp/scripts/detection_slide.gd"
+}, {
+"base": &"CharacterBody3D",
+"class": &"Player",
+"icon": "",
+"language": &"GDScript",
+"path": "res://src/physics_bodys/character/scripts/character.gd"
+}]

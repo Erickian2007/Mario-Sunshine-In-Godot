@@ -11,7 +11,7 @@ const slide_multiplier: int = 20
 const force:  int = 10
 const weight: float = 1.0
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if can_slide:
 		# getting last motion of the slope
 		if Global.player.get_last_motion().length() != 0: get_last_slop = Global.player.get_last_motion()
@@ -35,5 +35,5 @@ func _on_body_entered(body: CharacterBody3D) -> void:
 		can_slide = true
 	
 	
-func _on_body_exited(body: CharacterBody3D) -> void:
+func _on_body_exited(_body: CharacterBody3D) -> void:
 	can_slide        = false

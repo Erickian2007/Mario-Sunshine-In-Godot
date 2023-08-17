@@ -1,11 +1,16 @@
-[gd_scene load_steps=28 format=3 uid="uid://cgvpwcaaykwne"]
+[gd_scene load_steps=41 format=3 uid="uid://cgvpwcaaykwne"]
 
-[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/character.gd" id="1_t27yr"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/player.gd" id="1_di0ec"]
 [ext_resource type="Script" path="res://src/physics_bodys/character/scripts/others/Collisions/body.gd" id="2_n0s5n"]
 [ext_resource type="Script" path="res://src/physics_bodys/character/scripts/animation/animation.gd" id="3_r0s76"]
 [ext_resource type="PackedScene" uid="uid://b7020hjp71pkt" path="res://resources/3d/gobot/3DGodotRobot.glb" id="4_3hot7"]
 [ext_resource type="Script" path="res://src/physics_bodys/character/scripts/gui/fps.gd" id="5_3gtpn"]
 [ext_resource type="Script" path="res://src/physics_bodys/character/scripts/camera/camera_arm.gd" id="6_bsa14"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/state_machine/states.gd" id="6_twvlg"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/state_machine/move.gd" id="7_kk1pv"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/state_machine/jump.gd" id="8_ipcvl"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/state_machine/fall.gd" id="9_5oih7"]
+[ext_resource type="Script" path="res://src/physics_bodys/character/scripts/state_machine/wall_slide.gd" id="9_w7vxk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rq68i"]
 radius = 0.329508
@@ -26,8 +31,14 @@ animation = &"Jump"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vsxia"]
 animation = &"Run"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_urglo"]
+animation = &"WallJump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_74m7e"]
+animation = &"WallSlide"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lg6x8"]
-xfade_time = 0.19
+xfade_time = 0.1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mw6yg"]
 advance_mode = 2
@@ -65,42 +76,50 @@ xfade_time = 0.15
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jg5m5"]
 xfade_time = 0.15
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g13ch"]
+xfade_time = 0.3
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ibf4o"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tbr7e"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vblfd"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5sp0m"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6k4aw"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_owxv4"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_lvexg"]
 states/Dive/node = SubResource("AnimationNodeAnimation_ja8f8")
 states/Dive/position = Vector2(506.336, 106.088)
-states/End/position = Vector2(937.333, 107.731)
+states/End/position = Vector2(1500, 185.064)
 states/Fall/node = SubResource("AnimationNodeAnimation_1wjv3")
-states/Fall/position = Vector2(782.905, 407.719)
+states/Fall/position = Vector2(998.145, 505.052)
 states/Idle/node = SubResource("AnimationNodeAnimation_s0s8p")
-states/Idle/position = Vector2(10.242, -48.309)
+states/Idle/position = Vector2(-1.758, -48.6758)
 states/Jump/node = SubResource("AnimationNodeAnimation_ehsdw")
-states/Jump/position = Vector2(10.1427, 408.589)
+states/Jump/position = Vector2(-2.16934, 505.207)
 states/Run/node = SubResource("AnimationNodeAnimation_vsxia")
-states/Run/position = Vector2(782.335, -48.2508)
-states/Start/position = Vector2(-122.666, 107.159)
-transitions = ["Jump", "Fall", SubResource("AnimationNodeStateMachineTransition_lg6x8"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_mw6yg"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_poyf3"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_llo5l"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_jpcds"), "Idle", "Fall", SubResource("AnimationNodeStateMachineTransition_5c03d"), "Fall", "Run", SubResource("AnimationNodeStateMachineTransition_o6tk7"), "Run", "Fall", SubResource("AnimationNodeStateMachineTransition_eaxmw"), "Fall", "Dive", SubResource("AnimationNodeStateMachineTransition_en663"), "Dive", "Idle", SubResource("AnimationNodeStateMachineTransition_wuod5"), "Dive", "Run", SubResource("AnimationNodeStateMachineTransition_lvbp7"), "Fall", "Idle", SubResource("AnimationNodeStateMachineTransition_nndr3"), "Idle", "Dive", SubResource("AnimationNodeStateMachineTransition_jg5m5")]
-graph_offset = Vector2(-233.664, -133.169)
+states/Run/position = Vector2(998.335, -49.262)
+states/Start/position = Vector2(-226.666, 91.159)
+states/WallJump/node = SubResource("AnimationNodeAnimation_urglo")
+states/WallJump/position = Vector2(171.545, 317.001)
+states/WallSlide/node = SubResource("AnimationNodeAnimation_74m7e")
+states/WallSlide/position = Vector2(170.852, 446.443)
+transitions = ["Jump", "Fall", SubResource("AnimationNodeStateMachineTransition_lg6x8"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_mw6yg"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_poyf3"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_llo5l"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_jpcds"), "Idle", "Fall", SubResource("AnimationNodeStateMachineTransition_5c03d"), "Fall", "Run", SubResource("AnimationNodeStateMachineTransition_o6tk7"), "Run", "Fall", SubResource("AnimationNodeStateMachineTransition_eaxmw"), "Fall", "Dive", SubResource("AnimationNodeStateMachineTransition_en663"), "Dive", "Idle", SubResource("AnimationNodeStateMachineTransition_wuod5"), "Dive", "Run", SubResource("AnimationNodeStateMachineTransition_lvbp7"), "Fall", "Idle", SubResource("AnimationNodeStateMachineTransition_nndr3"), "Idle", "Dive", SubResource("AnimationNodeStateMachineTransition_jg5m5"), "Jump", "WallSlide", SubResource("AnimationNodeStateMachineTransition_g13ch"), "Fall", "WallSlide", SubResource("AnimationNodeStateMachineTransition_ibf4o"), "WallSlide", "Fall", SubResource("AnimationNodeStateMachineTransition_tbr7e"), "WallSlide", "Idle", SubResource("AnimationNodeStateMachineTransition_vblfd"), "WallSlide", "WallJump", SubResource("AnimationNodeStateMachineTransition_5sp0m"), "WallJump", "WallSlide", SubResource("AnimationNodeStateMachineTransition_6k4aw"), "WallJump", "Fall", SubResource("AnimationNodeStateMachineTransition_owxv4")]
+graph_offset = Vector2(-215.854, 209.493)
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_l68ld"]
-
-[node name="Character" type="CharacterBody3D" groups=["Player"]]
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_mask = 38
 floor_stop_on_slope = false
-script = ExtResource("1_t27yr")
-mass = 4
-jump_velocity = 13
+script = ExtResource("1_di0ec")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.578472, 0, 0, 0, 0.578472, 0, 0, 0, 0.578472, 0, 0.35251, 0)
 shape = SubResource("CapsuleShape3D_rq68i")
 script = ExtResource("2_n0s5n")
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeStateMachine_lvexg")
-anim_player = NodePath("../Model/AnimationPlayer")
-active = true
-parameters/playback = SubResource("AnimationNodeStateMachinePlayback_l68ld")
-script = ExtResource("3_r0s76")
 
 [node name="Model" parent="." instance=ExtResource("4_3hot7")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -131,6 +150,43 @@ bones/21/rotation = Quaternion(0.991415, -0.0203396, 0.00748626, 0.128945)
 bones/22/rotation = Quaternion(0.249628, -0.00871766, -0.0249741, 0.967981)
 bones/23/rotation = Quaternion(-0.608714, -0.00331544, 0.00479126, 0.793368)
 
+[node name="Chest" parent="Model/RobotArmature/Skeleton3D" index="1"]
+transform = Transform3D(1, 0, -2.84217e-14, 0, 1, 0, 2.84217e-14, 0, 1, 0, 0, 0)
+
+[node name="Llimbs and head" parent="Model/RobotArmature/Skeleton3D" index="3"]
+transform = Transform3D(1, 0, -5.68434e-14, 0, 1, 0, 5.68434e-14, 0, 1, 0, 0, 0)
+
+[node name="SpringArm" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.905768, 0.423773, 0, -0.423773, 0.905768, 0, 0.732121, 0)
+top_level = true
+collision_mask = 0
+spring_length = 5.0
+script = ExtResource("6_bsa14")
+
+[node name="Camera" type="Camera3D" parent="SpringArm"]
+current = true
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_lvexg")
+anim_player = NodePath("../Model/AnimationPlayer")
+active = true
+script = ExtResource("3_r0s76")
+
+[node name="State" type="Node" parent="."]
+script = ExtResource("6_twvlg")
+
+[node name="Move" type="Node" parent="State"]
+script = ExtResource("7_kk1pv")
+
+[node name="Jump" type="Node" parent="State"]
+script = ExtResource("8_ipcvl")
+
+[node name="Fall" type="Node" parent="State"]
+script = ExtResource("9_5oih7")
+
+[node name="WallSlide" type="Node" parent="State"]
+script = ExtResource("9_w7vxk")
+
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -148,15 +204,5 @@ offset_right = 88.0
 offset_bottom = 53.0
 text = "FPS: 999"
 script = ExtResource("5_3gtpn")
-
-[node name="SpringArm" type="SpringArm3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.905768, 0.423773, 0, -0.423773, 0.905768, 0, 0.732121, 0)
-top_level = true
-collision_mask = 0
-spring_length = 5.0
-script = ExtResource("6_bsa14")
-
-[node name="Camera" type="Camera3D" parent="SpringArm"]
-current = true
 
 [editable path="Model"]

@@ -10,7 +10,7 @@ var is_on_up: bool
 func _ready() -> void:
 	gravity_scale = 0
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	set_axis_velocity(to * speed)
 	
 #	if is_on_up:
@@ -22,7 +22,7 @@ func _on_detection_body_entered(body: Node3D) -> void:
 	is_on_up = true
 	player   = body
 	
-func _on_detection_body_exited(body: Node3D) -> void:
+func _on_detection_body_exited(_body: Node3D) -> void:
 	is_on_up = false
 	player   = null
 
